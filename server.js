@@ -20,7 +20,7 @@ const url   = require('url');
 const PORT       = process.env.PORT || 3000;
 const API_KEY    = process.env.ANTHROPIC_API_KEY || '';
 const MODEL      = 'claude-sonnet-4-6';
-const MAX_TOKENS = 2000;
+const MAX_TOKENS = 4000;
 
 if (!API_KEY) {
   console.error('[GAN HAI] ANTHROPIC_API_KEY non définie. Arrêt.');
