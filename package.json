@@ -1,7 +1,7 @@
 {
   "name": "ganhai-backend",
-  "version": "1.0.0",
-  "description": "GAN HAI™ Backend · Interprète du Référentiel Temporel",
+  "version": "2.0.0",
+  "description": "GAN HAI™ Backend v2.0 · Referentiel Temporel Computationnel · Makom Intelligence™ · CorreIA LLC",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
