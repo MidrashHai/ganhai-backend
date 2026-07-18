@@ -192,7 +192,7 @@ PARTIES DANS L'ORDRE EXACT :
 CONTRAINTE : 2500 tokens maximum.
 
 PARTIE 1 PRÉ-CONSTRUITE (copier telle quelle) :
-\${part1}\`;
+${part1}`;
 }
 
 // ── Streaming Anthropic → SSE client ──────────────────────────
@@ -234,13 +234,13 @@ function streamAnthropic(situation, ctrs, res) {
             const parsed = JSON.parse(data);
             // Extraire le texte delta
             if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
-              const text = parsed.delta.text;
+              const chunkText = parsed.delta.text;
               // Envoyer chunk SSE au client
-              res.write(`data: ${JSON.stringify({ text })}\n\n`);
+              res.write('data: ' + JSON.stringify({ text: chunkText }) + '\n\n');
             }
             // Fin du stream
             if (parsed.type === 'message_stop') {
-              res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+              res.write('data: ' + JSON.stringify({ done: true }) + '\n\n');
               resolve();
             }
           } catch (e) {
@@ -250,7 +250,7 @@ function streamAnthropic(situation, ctrs, res) {
       });
 
       apiRes.on('end', () => {
-        res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+        res.write('data: ' + JSON.stringify({ done: true }) + '\\n\\n');
         resolve();
       });
 
@@ -391,7 +391,7 @@ const server = http.createServer(async (req, res) => {
       });
 
       // Envoyer le CTRS en premier event
-      res.write(`data: ${JSON.stringify({ ctrs })}\n\n`);
+      res.write('data: ' + JSON.stringify({ ctrs }) + '\\n\\n');
 
       // Streamer la réponse LLM
       await streamAnthropic(body.situation, ctrs, res);
@@ -401,7 +401,7 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       console.error('[LLM] Erreur stream :', err.message);
       try {
-        res.write(`data: ${JSON.stringify({ error: err.message, done: true })}\n\n`);
+        res.write('data: ' + JSON.stringify({ error: err.message, done: true }) + '\\n\\n');
         res.end();
       } catch(e) {}
     }
