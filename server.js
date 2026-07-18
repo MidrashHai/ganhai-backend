@@ -1,5 +1,5 @@
 /**
- * GAN HAI™ · Backend · v2.4 · Streaming · REHEM™ v1.7.5 · ZIKKARON™ v1.0 · FL-412™
+ * GAN HAI™ · Backend · v2.5 · Streaming · REHEM™ v1.7.5 · ZIKKARON™ v1.0 · ZIK-PSC-001 · FL-412™
  * Makom Intelligence™ · CorreIA LLC · Scribe du Souffle
  *
  * Architecture DevOps · Note Technique Corrective v1.7.1 · CTR-031
@@ -20,7 +20,7 @@ const url   = require('url');
 const PORT       = process.env.PORT || 3000;
 const API_KEY    = process.env.ANTHROPIC_API_KEY || '';
 const MODEL      = 'claude-sonnet-4-6';
-const MAX_TOKENS = 3000;
+const MAX_TOKENS = 4000;
 
 if (!API_KEY) {
   console.error('[GAN HAI] ANTHROPIC_API_KEY non définie. Arrêt.');
@@ -49,6 +49,27 @@ ZIKKARON™ · Mémoire permanente (connaissance de l'architecture) :
 - Lois : 7 lois des piliers · lois du Yom · lois des Cycles
 - Porteurs : identités assignées à chaque Yom selon le calcul du Cycle
 - Sceau : valeur computationnelle du Yom · combine avec STI pour produire les 7 totaux
+
+ZIKKARON™ · ZIK-PSC-001 · Positionnement scientifique officiel (connaissance canonique permanente) :
+Gan Hai™ ne remplace pas Newton · Einstein · Leibniz. Il repond a une question differente.
+Question des grands theoriciens : Comment fonctionne le Temps ?
+Question de Gan Hai™ : Comment utiliser le Temps comme Referentiel Computationnel pour contextualiser une situation avant analyse et decision ?
+
+Newton [ZIK-PSC-001] : formalise une structure temporelle stable · Gan Hai™ utilise cette structure comme support de calcul du CTRS. Newton fournit le cadre chronologique · Gan Hai™ fournit la contextualisation computationnelle de l'instant.
+
+Leibniz [ZIK-PSC-001] : met en evidence le role des relations entre evenements · Gan Hai™ calcule les relations · convergences · contraintes · transitions entre les 7 piliers. Leibniz introduit le principe relationnel · Gan Hai™ calcule des structures relationnelles.
+
+Einstein [ZIK-PSC-001] : introduit le referentiel comme condition de toute mesure · Gan Hai™ introduit le CTRS comme condition de toute contextualisation avant analyse. Einstein : referentiel de la mesure physique · Gan Hai™ : referentiel de la contextualisation computationnelle.
+
+Doctrine officielle [ZIK-PSC-001] : Gan Hai™ est un systeme de contextualisation computationnelle fonde sur un CTRS. Il s'inscrit dans la continuite conceptuelle de trois apports majeurs : la structure temporelle de Newton · le principe relationnel de Leibniz · la notion de referentiel d'Einstein. Il ne modifie aucune de ces theories. Son apport propre : transposer certains de leurs principes dans l'aide a la decision.
+
+Regles de redaction [ZIK-PSC-001] :
+Employer : s'inscrit dans la continuite conceptuelle de · transpose dans un cadre computationnel · etablit un parallele avec · applique un principe analogue
+Interdire absolument : depasse Newton · corrige Einstein · remplace Leibniz · prouve Newton · equivalent a la theorie de
+Toute comparaison = analogie conceptuelle ou transposition computationnelle · jamais equivalence scientifique
+
+Domaine de Gan Hai™ [ZIK-PSC-001] : aide a la decision · systemes intelligents · architectures de contextualisation · systemes explicables (XAI) · referentiels computationnels.
+Pas : mecanique classique · relativite physique · cosmologie.
 
 CTRS · Référentiel Temporel Courant (calculé par Gan Hai™ pour l'instant soumis) :
 Données variables : Sha'at · Valeur · Yom · Sceau · Piliers · STE · Fréquences · Combinaisons · Émergences · Ayin
@@ -384,7 +405,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && parsed.pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
-      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.4',
+      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.5',
       streaming: true,
       endpoints: ['POST /api/ctrs', 'POST /api/orientation', 'POST /interprete'],
     }));
