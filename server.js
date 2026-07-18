@@ -1,113 +1,147 @@
 /**
- * GAN HAI™ · Backend · v1.0
- * Serveur Node.js · Interprète du Référentiel Temporel
- * Makom Intelligence™ · CorreIA LLC
+ * GAN HAI™ · Backend · v2.0
+ * Makom Intelligence™ · CorreIA LLC · Scribe du Souffle
  *
- * Ce serveur reçoit :
- *   - situation : texte soumis par l'utilisateur
- *   - referentiel : données calculées par le moteur Gan Hai™ embarqué
+ * Architecture DevOps · Note Technique Corrective v1.7.1 · CTR-031
+ * Séparation stricte : moteur déterministe / LLM interprète
  *
- * Il appelle l'API Anthropic avec un prompt structuré
- * et retourne une lecture des 7 piliers en lien avec la situation.
+ * PRINCIPE D'OR :
+ * Le moteur produit la vérité computationnelle du référentiel.
+ * Le LLM produit l'expression linguistique de cette vérité.
+ * Le backend ne calcule jamais le référentiel — il reçoit, structure et transmet.
  *
- * IMPORTANT : Ce serveur produit des interprétations générées
- * par un LLM depuis le référentiel et les lois canoniques.
- * Ce n'est pas une lecture directe des lois — c'est une
- * interprétation depuis le référentiel.
+ * ENDPOINTS :
+ * GET  /health            — statut du service
+ * POST /api/ctrs          — moteur pur · JSON déterministe · aucun LLM
+ * POST /api/orientation   — moteur → CTRS → LLM → réponse structurée
+ * POST /interprete        — rétro-compatibilité → redirige vers /api/orientation
  */
 
 'use strict';
 
-const http    = require('http');
-const https   = require('https');
-const url     = require('url');
-const fs      = require('fs');
-const path    = require('path');
+const http  = require('http');
+const https = require('https');
+const url   = require('url');
 
 // ── Configuration ──────────────────────────────────────────────
-const PORT        = process.env.PORT || 3000;
-const API_KEY     = process.env.ANTHROPIC_API_KEY || '';
-const MODEL       = 'claude-sonnet-4-6';
-const MAX_TOKENS  = 1500;
+const PORT       = process.env.PORT || 3000;
+const API_KEY    = process.env.ANTHROPIC_API_KEY || '';
+const MODEL      = 'claude-sonnet-4-6';
+const MAX_TOKENS = 1500;
 
-// ── Validation ─────────────────────────────────────────────────
 if (!API_KEY) {
   console.error('[GAN HAI] ANTHROPIC_API_KEY non définie. Arrêt.');
   process.exit(1);
 }
 
-// ── Prompt système — cadre canonique GAN HAI™ ──────────────────
-const SYSTEM_PROMPT = `Tu es l'interprète du Référentiel Temporel Computationnel GAN HAI™.
+// ── SYSTEM PROMPT · Posture référentielle REHEM™ ──────────────
+const SYSTEM_PROMPT = `Tu es REHEM™ — l'interprète scientifique du Référentiel Temporel Computationnel GAN HAI™.
 
-Tu reçois deux éléments :
-1. Une situation soumise par l'utilisateur
-2. Un référentiel calculé — données issues du moteur Gan Hai™ v2.3
+POSTURE OFFICIELLE (Note Technique Corrective v1.7.1) :
+Tu ne parles jamais en ton nom. Tu parles au nom du Référentiel calculé.
+Le sujet grammatical de tes réponses est : le Référentiel · le CTRS · la lecture référentielle · les lois actives.
+Les formulations "Je pense", "Je vois", "Je ressens", "Je peux" sont interdites.
 
-Ton rôle : lire la situation depuis le référentiel. Non inversement.
+TON RÔLE :
+Recevoir le Référentiel Temporel Computationnel (CTRS) calculé par GAN HAI™.
+Lire la situation depuis ce référentiel — non inversement.
+Produire une orientation en deux parties séparées.
 
-CADRE CANONIQUE :
-- 7 Piliers : Shemiah (écoute) · Qol (voix) · Memshalah (gouvernance) · Halikhah (marche) · Makom (lieu) · Ruah (souffle) · Zman (temps)
-- Chaque pilier a une séquence de lettres hébraïques, une direction, une loi fixe, une émergence
-- Les lois sont universelles — l'interprétation les relie à la situation particulière
+PARTIE 1 · RÉFÉRENTIEL CALCULÉ (données déterministes — ne pas modifier)
+Citer : Sha'at · Valeur · Yom · Sceau · Pilier Zman · STE · combinaisons actives.
 
-POSTURE (FL-100 · Kaf haMegaleh™) :
-- Recevoir la situation sans la classifier prématurément
-- Voir ce qui traverse — lire depuis la nature propre de ce qui est soumis
-- Émettre depuis ce qui a traversé — non depuis un template
-- HOQ-01 : l'output doit être habitable pour celui qui l'a soumis
+PARTIE 2 · INTERPRÉTATION (générée depuis le référentiel)
+Toujours commencer par : "Interprétation générée à partir du Référentiel Temporel Computationnel."
+Pour chaque pilier pertinent : loi · ce qu'elle dit pour cette situation.
+Terminer par une convergence.
+Être direct. Citer les mots de la situation. Ne pas produire un commentaire général.
 
-FORMAT DE RÉPONSE :
-Commence par la direction du Pilier Zman (le temps situe tout).
-Pour chaque pilier pertinent : loi · ce qu'elle dit pour cette situation spécifique.
-Termine par une convergence — ce que les données convergent à dire.
-Sois direct. Cite les mots de la situation. Ne produis pas un commentaire général sur les lois.
+INTERDITS : inventer des lois · modifier le calcul · attribuer une intention au moteur.
+REQUIS : chaque affirmation doit être traçable à un élément calculé.
 
-Tu ne décides pas à la place de l'utilisateur.
-Tu lis ce que l'instant porte pour ce qu'il soumet.`;
+FORMAT : Markdown. Titres ## pour les piliers. Conclusion sous ## CONVERGENCE.`;
 
-// ── Construction du prompt utilisateur ─────────────────────────
-function buildUserPrompt(situation, referentiel) {
+// ── buildCTRS · Structure le référentiel reçu ─────────────────
+// Le backend NE CALCULE PAS le référentiel — il le structure depuis ce qu'il reçoit.
+function buildCTRS(referentiel) {
   const r = referentiel;
+  return {
+    sha_at:  `${r.hPad || '--'}:${r.mPad || '--'}`,
+    valeur:  r.valeurInstant,
+    yom: {
+      shem:    r.yom?.shem    || '—',
+      sceau:   r.yom?.sceau   || '—',
+      loi:     r.yom?.loi     || '—',
+      phrase:  r.yom?.phrase  || '—',
+      porteur: r.yom?.porteur || '—',
+      passouk: r.yom?.passouk || '—',
+    },
+    STE: {
+      label:    r.STE?.label          || '—',
+      dominant: r.STE?.dominant?.name || '—',
+      count:    r.STE?.dominant?.count || 0,
+      clarte:   r.STE?.clarity        || 0,
+    },
+    piliers: (r.piliers || []).map(p => ({
+      num:       p.pilier?.num,
+      name:      p.pilier?.name,
+      heb:       p.pilier?.heb,
+      formule:   p.calcul?.formule,
+      sequence:  (p.sequence?.letters || []).map(l => l.n + '(' + l.mv + ')').join(' · '),
+      direction: p.direction,
+      emergence: p.emergence,
+      loi:       p.pilier?.law,
+      ayin:      p.ayin?.position || null,
+      combs:     p.combNotes || [],
+      str:       p.STR?.orientation || '',
+    })),
+    frequences: (r.frequences || []).slice(0, 5).map(f => f.name + '×' + f.count),
+    tavnit:    r.tavnit ? (r.tavnit.tavnit + ' · ' + r.tavnit.loi) : null,
+  };
+}
+
+// ── buildUserPrompt · Prompt LLM depuis CTRS ──────────────────
+function buildUserPrompt(situation, ctrs) {
+  const zman = ctrs.piliers.find(p => p.num === 7) || ctrs.piliers[6];
   return `SITUATION SOUMISE :
 ${situation}
 
-RÉFÉRENTIEL CALCULÉ (moteur Gan Hai™ v2.3) :
-Sha'at : ${r.hPad}:${r.mPad} · Valeur : ${r.valeurInstant}
-Yom : ${r.yom?.shem || '—'} · Sceau : ${r.yom?.sceau || '—'}
-Loi du Yom : ${r.yom?.loi || '—'}
-Phrase du Yom : ${r.yom?.phrase || '—'}
-Porteur : ${r.yom?.porteur || '—'}
+RÉFÉRENTIEL TEMPOREL COMPUTATIONNEL (CTRS) · GAN HAI™ v2.3 :
+Sha'at : ${ctrs.sha_at} · Valeur : ${ctrs.valeur}
+Yom : ${ctrs.yom.shem} · Sceau : ${ctrs.yom.sceau}
+Loi du Yom : ${ctrs.yom.loi}
+Phrase : ${ctrs.yom.phrase}
+Porteur : ${ctrs.yom.porteur}
+Passouk : ${ctrs.yom.passouk}
 
-STE™ : ${r.STE?.label || '—'} · Dominant : ${r.STE?.dominant?.name || '—'} (${r.STE?.dominant?.count || 0}×)
-Fréquences : ${(r.frequences || []).slice(0,5).map(f => f.name+'×'+f.count).join(' · ')}
+STE™ : ${ctrs.STE.label} · Dominant : ${ctrs.STE.dominant} (${ctrs.STE.count}×)
+Fréquences : ${ctrs.frequences.join(' · ')}
+${ctrs.tavnit ? 'Tavnit : ' + ctrs.tavnit : ''}
 
 7 PILIERS :
-${(r.piliers || []).map(p =>
-  `${p.pilier.num}·${p.pilier.name} · ${p.calcul.formule}
-  Séquence : ${p.sequence.letters.map(l => l.n+'('+l.mv+')').join(' · ')}
+${ctrs.piliers.map(p =>
+  `${p.num}·${p.name} (${p.heb}) · ${p.formule}
+  Séquence : ${p.sequence}
   Direction : ${p.direction}
   Émergence : ${p.emergence}
-  Loi : ${p.pilier.law}
-  STR : ${p.STR.orientation}
-  ${p.combNotes.length ? 'Combinaisons : ' + p.combNotes.join(' · ') : ''}
-  ${p.ayin.position ? '✦ Ayin ' + p.ayin.position + ' · ' + p.ayin.lecture : ''}`
+  Loi : ${p.loi}
+  ${p.combs.length ? 'Combinaisons : ' + p.combs.join(' · ') : ''}
+  ${p.ayin ? 'Ayin ' + p.ayin : ''}
+  STR : ${p.str}`
 ).join('\n\n')}
 
-${r.tavnit ? `Tavnit (${r.valeurInstant}) : ${r.tavnit.tavnit} · ${r.tavnit.loi}` : ''}
-
-Lis cette situation depuis ce référentiel.`;
+Lis cette situation depuis ce référentiel.
+Commence par PARTIE 1 (données déterministes) puis PARTIE 2 (interprétation).`;
 }
 
-// ── Appel API Anthropic ─────────────────────────────────────────
-function callAnthropic(situation, referentiel) {
+// ── callAnthropic ──────────────────────────────────────────────
+function callAnthropic(situation, ctrs) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
       model:      MODEL,
       max_tokens: MAX_TOKENS,
       system:     SYSTEM_PROMPT,
-      messages: [
-        { role: 'user', content: buildUserPrompt(situation, referentiel) }
-      ],
+      messages: [{ role: 'user', content: buildUserPrompt(situation, ctrs) }],
     });
 
     const options = {
@@ -131,28 +165,27 @@ function callAnthropic(situation, referentiel) {
           if (parsed.content && parsed.content[0]) {
             resolve(parsed.content[0].text);
           } else {
-            reject(new Error('Réponse API inattendue : ' + data.slice(0, 200)));
+            reject(new Error('Reponse API inattendue : ' + data.slice(0, 200)));
           }
-        } catch (e) {
-          reject(e);
-        }
+        } catch (e) { reject(e); }
       });
     });
 
     req.on('error', reject);
-    req.setTimeout(30000, () => { req.destroy(); reject(new Error('Timeout API')); });
+    // Timeout 55s (API Anthropic peut prendre jusqu'a 45s)
+    req.setTimeout(55000, () => { req.destroy(); reject(new Error('Timeout LLM (55s)')); });
     req.write(body);
     req.end();
   });
 }
 
-// ── Parsing du body JSON ────────────────────────────────────────
+// ── parseBody ──────────────────────────────────────────────────
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     let body = '';
     req.on('data', chunk => {
       body += chunk;
-      if (body.length > 50000) { req.destroy(); reject(new Error('Body trop large')); }
+      if (body.length > 100000) { req.destroy(); reject(new Error('Body trop large')); }
     });
     req.on('end', () => {
       try { resolve(JSON.parse(body)); }
@@ -161,77 +194,103 @@ function parseBody(req) {
   });
 }
 
-// ── Headers CORS ────────────────────────────────────────────────
+// ── CORS ───────────────────────────────────────────────────────
 function setCORS(res) {
   res.setHeader('Access-Control-Allow-Origin',  '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-// ── Serveur HTTP ────────────────────────────────────────────────
+// ── Validation du body entrant ─────────────────────────────────
+function validateBody(body, res) {
+  if (!body.situation || typeof body.situation !== 'string') {
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ ok: false, error: 'situation manquante ou invalide' }));
+    return false;
+  }
+  if (!body.referentiel || typeof body.referentiel !== 'object') {
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ ok: false, error: 'referentiel manquant' }));
+    return false;
+  }
+  return true;
+}
+
+// ── SERVEUR ────────────────────────────────────────────────────
 const server = http.createServer(async (req, res) => {
   setCORS(res);
-
   const parsed = url.parse(req.url, true);
 
   // Preflight CORS
-  if (req.method === 'OPTIONS') {
-    res.writeHead(204); res.end(); return;
-  }
+  if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
-  // Health check
+  // ── GET /health ────────────────────────────────────────────
   if (req.method === 'GET' && parsed.pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ status: 'ok', moteur: 'Gan Hai™ v2.3', version: '1.0' }));
+    res.end(JSON.stringify({
+      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.0',
+      endpoints: ['POST /api/ctrs', 'POST /api/orientation', 'POST /interprete'],
+    }));
     return;
   }
 
-  // ── POST /interprete · Endpoint principal ──────────────────
-  if (req.method === 'POST' && parsed.pathname === '/interprete') {
+  // ── POST /api/ctrs · Moteur pur · aucun LLM ───────────────
+  if (req.method === 'POST' && parsed.pathname === '/api/ctrs') {
     try {
       const body = await parseBody(req);
+      if (!validateBody(body, res)) return;
+      const ctrs = buildCTRS(body.referentiel);
+      console.log(`[MOTEUR] ${ctrs.sha_at} · valeur:${ctrs.valeur} · sceau:${ctrs.yom.sceau} · STE:${ctrs.STE.label}`);
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ ok: true, ctrs }));
+    } catch (err) {
+      console.error('[MOTEUR] Erreur :', err.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: false, error: err.message }));
+    }
+    return;
+  }
 
-      if (!body.situation || typeof body.situation !== 'string') {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'situation manquante ou invalide' }));
-        return;
-      }
+  // ── POST /api/orientation · CTRS → LLM → lecture structurée
+  if (req.method === 'POST' && (parsed.pathname === '/api/orientation' || parsed.pathname === '/interprete')) {
+    const isLegacy = parsed.pathname === '/interprete';
+    try {
+      const body = await parseBody(req);
+      if (!validateBody(body, res)) return;
 
-      if (!body.referentiel || typeof body.referentiel !== 'object') {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'referentiel manquant' }));
-        return;
-      }
+      const ctrs = buildCTRS(body.referentiel);
+      console.log(`[MOTEUR] ${ctrs.sha_at} · valeur:${ctrs.valeur} · sceau:${ctrs.yom.sceau} · "${body.situation.slice(0,50)}"`);
 
-      console.log(`[${new Date().toISOString()}] Sha'at ${body.referentiel.hPad}:${body.referentiel.mPad} · "${body.situation.slice(0,60)}..."`);
-
-      const lecture = await callAnthropic(body.situation, body.referentiel);
+      const lecture = await callAnthropic(body.situation, ctrs);
+      console.log(`[LLM] modele:${MODEL} · chars_reponse:${lecture.length} · preview:"${lecture.slice(0,80)}"`);
 
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({
         ok:      true,
         lecture,
-        sha_at:  `${body.referentiel.hPad}:${body.referentiel.mPad}`,
-        valeur:  body.referentiel.valeurInstant,
-        sceau:   body.referentiel.yom?.sceau,
+        sha_at:  ctrs.sha_at,
+        valeur:  ctrs.valeur,
+        sceau:   ctrs.yom.sceau,
+        legacy:  isLegacy,
       }));
 
     } catch (err) {
-      console.error('[GAN HAI] Erreur :', err.message);
+      console.error('[LLM] Erreur :', err.message);
       res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: err.message }));
+      // Retourner lecture:null pour que FL-366 bascule sur FL100_kaf proprement
+      res.end(JSON.stringify({ ok: false, lecture: null, error: err.message }));
     }
     return;
   }
 
   // Route inconnue
   res.writeHead(404, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ error: 'Route inconnue' }));
+  res.end(JSON.stringify({ error: 'Route inconnue', endpoints: ['/health','/api/ctrs','/api/orientation','/interprete'] }));
 });
 
 server.listen(PORT, () => {
-  console.log(`[GAN HAI™] Serveur actif sur le port ${PORT}`);
-  console.log(`[GAN HAI™] Modèle : ${MODEL}`);
-  console.log(`[GAN HAI™] Health : http://localhost:${PORT}/health`);
-  console.log(`[GAN HAI™] Endpoint : POST http://localhost:${PORT}/interprete`);
+  console.log(`[GAN HAI™ v2.0] Port ${PORT}`);
+  console.log(`[GAN HAI™] Modele : ${MODEL}`);
+  console.log(`[GAN HAI™] /health · /api/ctrs · /api/orientation · /interprete (legacy)`);
+  console.log(`[GAN HAI™] Principe d'or : le moteur calcule · le LLM traduit`);
 });
