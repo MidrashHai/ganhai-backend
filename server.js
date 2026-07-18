@@ -54,9 +54,19 @@ STRUCTURE OBLIGATOIRE DU RAPPORT :
 ---
 
 ## PARTIE 1 · RÉFÉRENTIEL CALCULÉ
-Tableau markdown des données déterministes :
-Sha'at · Valeur · Yom · Sceau · Pilier Zman · STE · Fréquences · Loi du Yom · Passouk · Porteur · Combinaisons actives.
-NE PAS MODIFIER ces données.
+Liste de données déterministes, une par ligne, format strict (PAS de tableau markdown, PAS de | ni de ---) :
+**Sha'at** : [valeur]
+**Valeur** : [valeur]
+**Yom** : [valeur]
+**Sceau** : [valeur]
+**Pilier Zman** : [valeur]
+**STE** : [valeur]
+**Fréquences** : [valeur]
+**Loi du Yom** : [valeur]
+**Passouk** : [valeur]
+**Porteur** : [valeur]
+**Combinaisons actives** : [valeur]
+NE PAS MODIFIER ces données. NE PAS utiliser de tableaux markdown.
 
 ---
 
