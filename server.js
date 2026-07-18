@@ -137,36 +137,62 @@ function buildCTRS(referentiel) {
   };
 }
 
+function buildPart1(ctrs) {
+  const zman = ctrs.piliers.find(p => p.num === 7) || ctrs.piliers[ctrs.piliers.length-1];
+  const combs = ctrs.piliers.flatMap(p => p.combs).filter(Boolean).slice(0,6);
+  return [
+    '## RAPPORT RÉFÉRENTIEL',
+    '### Référentiel Temporel Computationnel · Analyse Contextuelle',
+    '',
+    '## PARTIE 1 · RÉFÉRENTIEL CALCULÉ',
+    '',
+    `**Sha'at** : ${ctrs.sha_at}`,
+    `**Valeur** : ${ctrs.valeur}`,
+    `**Yom** : ${ctrs.yom.shem}`,
+    `**Sceau** : ${ctrs.yom.sceau}`,
+    `**Pilier Zman** : ${zman ? zman.formule : '✦'}`,
+    `**STE** : ${ctrs.STE.label} · Dominant : ${ctrs.STE.dominant} (${ctrs.STE.count}×)`,
+    `**Fréquences** : ${ctrs.frequences.join(' · ')}`,
+    `**Loi du Yom** : ${ctrs.yom.loi}`,
+    `**Passouk** : ${ctrs.yom.passouk}`,
+    `**Porteur** : ${ctrs.yom.porteur}`,
+    combs.length ? `**Combinaisons actives** : ${combs.join(' · ')}` : '',
+    ctrs.tavnit ? `**Tavnit** : ${ctrs.tavnit}` : '',
+  ].filter(l => l !== null && l !== undefined).join('\n');
+}
+
 function buildUserPrompt(situation, ctrs) {
+  const part1 = buildPart1(ctrs);
   return `SITUATION SOUMISE :
 ${situation}
 
-RÉFÉRENTIEL TEMPOREL COMPUTATIONNEL (CTRS) · GAN HAI™ v2.3 :
+CTRS COMPLET (source exclusive) :
 Sha'at : ${ctrs.sha_at} · Valeur : ${ctrs.valeur}
 Yom : ${ctrs.yom.shem} · Sceau : ${ctrs.yom.sceau}
 Loi du Yom : ${ctrs.yom.loi}
-Phrase : ${ctrs.yom.phrase}
 Porteur : ${ctrs.yom.porteur}
 Passouk : ${ctrs.yom.passouk}
-
-STE™ : ${ctrs.STE.label} · Dominant : ${ctrs.STE.dominant} (${ctrs.STE.count}×)
+STE : ${ctrs.STE.label} · Dominant : ${ctrs.STE.dominant} (${ctrs.STE.count}×)
 Fréquences : ${ctrs.frequences.join(' · ')}
 ${ctrs.tavnit ? 'Tavnit : ' + ctrs.tavnit : ''}
 
 7 PILIERS :
 ${ctrs.piliers.map(p =>
-  `${p.num}·${p.name} (${p.heb}) · ${p.formule}
+  `${p.num}·${p.name} · ${p.formule}
   Séquence : ${p.sequence}
   Direction : ${p.direction}
   Émergence : ${p.emergence}
   Loi : ${p.loi}
   ${p.combs.length ? 'Combinaisons : ' + p.combs.join(' · ') : ''}
-  ${p.ayin ? 'Ayin ' + p.ayin : ''}
-  STR : ${p.str}`
+  ${p.ayin ? 'Ayin ' + p.ayin : ''}`
 ).join('\n\n')}
 
-Lis cette situation depuis ce référentiel.
-Commence par PARTIE 1 (tableau données déterministes) puis PARTIE 2 (interprétation pilier par pilier + CONVERGENCE).`;
+INSTRUCTION :
+La PARTIE 1 est déjà construite ci-dessous. Copie-la EXACTEMENT telle quelle, sans modification.
+Puis produis PARTIE 1.5, PARTIE 2, CONVERGENCES, LIMITES DE L'ANALYSE selon le protocole.
+
+PARTIE 1 PRÉ-CONSTRUITE (à copier telle quelle) :
+${part1}`;
 }
 
 // ── Streaming Anthropic → SSE client ──────────────────────────
