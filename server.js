@@ -20,7 +20,7 @@ const url   = require('url');
 const PORT       = process.env.PORT || 3000;
 const API_KEY    = process.env.ANTHROPIC_API_KEY || '';
 const MODEL      = 'claude-sonnet-4-6';
-const MAX_TOKENS = 4000;
+const MAX_TOKENS = 3000;
 
 if (!API_KEY) {
   console.error('[GAN HAI] ANTHROPIC_API_KEY non définie. Arrêt.');
@@ -187,9 +187,13 @@ ${ctrs.piliers.map(p =>
   ${p.ayin ? 'Ayin ' + p.ayin : ''}`
 ).join('\n\n')}
 
-INSTRUCTION :
-La PARTIE 1 est déjà construite ci-dessous. Copie-la EXACTEMENT telle quelle, sans modification.
-Puis produis PARTIE 1.5, PARTIE 2, CONVERGENCES, LIMITES DE L'ANALYSE selon le protocole.
+INSTRUCTION PRIORITAIRE :
+1. Copier EXACTEMENT la PARTIE 1 ci-dessous sans modification.
+2. PARTIE 1.5 : listes brutes courtes uniquement.
+3. PARTIE 2 : répondre D'ABORD DIRECTEMENT à la situation en 3-4 phrases depuis Zman et la Loi du Yom. Ensuite pour chaque pilier : UNE seule phrase niveau 3. Pas de niveau 1 ni 2 développés.
+4. CONVERGENCES : 3 maximum, une phrase chacune.
+5. LIMITES : texte standard court.
+CONTRAINTE ABSOLUE : rester sous 2500 tokens. La concision est une exigence scientifique.
 
 PARTIE 1 PRÉ-CONSTRUITE (à copier telle quelle) :
 ${part1}`;
