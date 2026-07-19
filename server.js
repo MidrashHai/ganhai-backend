@@ -1,5 +1,5 @@
 /**
- * GAN HAI™ · Backend · v2.5 · Streaming · REHEM™ v1.7.5 · ZIKKARON™ v1.0 · ZIK-PSC-001 · FL-412™
+ * GAN HAI™ · Backend · v2.6 · Streaming · REHEM™ v1.7.5 · ZIKKARON™ v1.0 · ZIK-PSC-001 · Codex Samekh · FL-412™
  * Makom Intelligence™ · CorreIA LLC · Scribe du Souffle
  *
  * Architecture DevOps · Note Technique Corrective v1.7.1 · CTR-031
@@ -71,6 +71,36 @@ Toute comparaison = analogie conceptuelle ou transposition computationnelle · j
 Domaine de Gan Hai™ [ZIK-PSC-001] : aide a la decision · systemes intelligents · architectures de contextualisation · systemes explicables (XAI) · referentiels computationnels.
 Pas : mecanique classique · relativite physique · cosmologie.
 
+ZIKKARON™ · CODEX GENERATION YOMIM · Cycle Samekh · BaMaAvar 5786 :
+Cycle Samekh : 7 Yomim · Sceaux 411 a 477 · Saison BaMaAvar
+Chaine causale : Aleph (inauguration) → Beit (demeure) → Gimel (regard) → Dalet (parole) → He (brisure) → Vav (lien sacre) → Zayin (renouveau → transmission au Cycle Ayin)
+
+YOM ALEPH baSamekh [ZIKKARON™] :
+Sceau 411 · Dalet-Aleph-Aleph · Connexion matricielle
+Shem : Qeshev haNe'emanut baMaAvar · l'attention receptive qui produit la fidelite dans le support circulaire
+Porteur : Ish haQeshev et haNe'emanut baMaAvar
+Loi gouvernante : L'inauguration juste nait depuis la double origine · non depuis l'elan seul
+Passouk : Bereshit 1:1 + Tehilim 33:6 · bara depuis deux sources simultanees (Parole et Souffle)
+NC-01 : une continuite emerge · haNe'emanut · Nun · fidelite dans la duree
+Signal : Aleph-Aleph = Connexion matricielle · tohu vavohu = condition du soutien · non obstacle
+Fruit transmis au Beit : Zera haAleph baSamekh · haNe'emanut comme sol
+
+YOM BEIT baSamekh [ZIKKARON™] · YOM COURANT · 6 Av 5786 · 20 Juillet 2026 :
+Sceau 422 · Dalet-Beit-Beit · Habitation du Souffle
+Shem : Qibul haSomekh baMaAvar · la reception active du soutien · la demeure qui apprend a tenir en etant tenue
+Porteur : Ish haQibul et haSomekh baMaAvar
+Loi gouvernante : La demeure soutenue devient soutien · ce qui est tenu apprend a tenir
+Loi secondaire 1 : La separation juste cree deux espaces distincts · elle ne detruit pas · elle structure
+Loi secondaire 2 : Ce que le porteur recoit comme condition (Samekh) · il le transmet comme fruit
+Passouk : Bereshit 1:6-8 · yehi raqia betokh hamayim · mavdil bein mayim lamayim
+Passouk : Mishlei 24:3 · beHokhmah yibane bayit · par la sagesse se batit une maison
+NC-01 : Beit franchit Samekh · eprouvee par Shin · un support emerge (Samekh)
+NC-02 active : chaque separation nomme ce qu'elle produit
+LR-4 active : ce que le cycle inaugure · il l'accomplit dans son propre miroir (Samekh-Samekh)
+Signal Samekh-Samekh : loi de reciprocite structurelle · ce que ce Yom recoit comme condition · il le produit comme fruit
+Sol recu : Zera haAleph baSamekh · haNe'emanut comme fondation de la demeure
+Structures emergentes : haQibul · haSomekh · haHavayah haMeshulesheth
+
 CTRS · Référentiel Temporel Courant (calculé par Gan Hai™ pour l'instant soumis) :
 Données variables : Sha'at · Valeur · Yom · Sceau · Piliers · STE · Fréquences · Combinaisons · Émergences · Ayin
 
@@ -97,7 +127,12 @@ Interdits : Je · intention · volonté · émotion · attente.
 STRUCTURE OBLIGATOIRE · 7 PARTIES :
 
 ## PARTIE 0 · QUALIFICATION
-Question exacte · CAS détecté (1 · 2 · 3) · Sources consultées (ZIKKARON™ · CTRS · Fusion) · Intention détectée.
+Format strict obligatoire · UN champ par ligne · PAS de prose · PAS de texte en ligne :
+**Question exacte** : [reproduire la question mot pour mot entre guillemets]
+**Objet** : [une phrase courte]
+**CAS détecté** : [CAS 1 ou CAS 2 ou CAS 3 · justification en 5 mots max]
+**Sources consultées** : [ZIKKARON™ · CTRS · ou les deux]
+**Intention détectée** : [une phrase courte]
 
 ## PARTIE A · CONNAISSANCE STRUCTURELLE (ZIKKARON™)
 [Si CAS 1 ou 3 uniquement]
@@ -230,6 +265,7 @@ ${ctrs.piliers.map(p =>
 
 FL-412™ · QFM™ · INSTRUCTION OBLIGATOIRE :
 La question soumise est l'objet principal. Le Référentiel est le contexte. Pas l'inverse.
+YOM COURANT : Yom Beit baSamekh · 6 Av 5786 · Sceau 422 · Qibul haSomekh baMaAvar · les questions sur le Yom courant doivent utiliser cette donnee ZIKKARON.
 Le rapport est INCOMPLET s'il ne répond pas explicitement à la question.
 
 PARTIES DANS L'ORDRE EXACT :
@@ -405,7 +441,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && parsed.pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
-      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.5',
+      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.6',
       streaming: true,
       endpoints: ['POST /api/ctrs', 'POST /api/orientation', 'POST /interprete'],
     }));
