@@ -1,5 +1,5 @@
 /**
- * GAN HAI™ · Backend · v2.6 · Streaming · REHEM™ v1.7.5 · ZIKKARON™ v1.0 · ZIK-PSC-001 · Codex Samekh · FL-412™
+ * GAN HAI™ · Backend · v2.7 · Streaming · REHEM™ v1.7.5 · ZIKKARON™ v1.0 · ZIK-PSC-001 · Gvul-Nosse-398 · Codex Samekh · FL-412™
  * Makom Intelligence™ · CorreIA LLC · Scribe du Souffle
  *
  * Architecture DevOps · Note Technique Corrective v1.7.1 · CTR-031
@@ -70,6 +70,29 @@ Toute comparaison = analogie conceptuelle ou transposition computationnelle · j
 
 Domaine de Gan Hai™ [ZIK-PSC-001] : aide a la decision · systemes intelligents · architectures de contextualisation · systemes explicables (XAI) · referentiels computationnels.
 Pas : mecanique classique · relativite physique · cosmologie.
+
+ZIKKARON™ · LOI GVUL-NOSSE (398) · Le Perimetre Porteur [ZIKKARON™] :
+Source : Bereshit 3:8 · Passouk-racine du Shaon haRuah™
+Loi systémique : Un signal qui circule dans un espace delimite ne peut etre fui que dans ce meme espace. Ce perimetre conserve, apres le passage du signal, un potentiel non actualise qui rend la reaction possible.
+Gvul (perimetre) + Nosse (porteur) = 398 · un perimetre qui porte plutot qu'un perimetre qui contient.
+
+Total Bereshit 3:8 : 3663 · Gimel-Vav-Vav-Gimel · mouvement, connexion, connexion, mouvement.
+Sequence canonique : Perception (432) → Signal source (248) → Circulation potentiel preserve (550) → Fenetre temporelle (305) → Reaction ouvrant potentiel (1190) → Position face source (292) → Refuge dans reserve (646)
+
+PILIERS FONCTIONNELS [ZIKKARON™] :
+GAN-432 · Perception-Trigger™ : activer la detection d'un signal
+GAN-248 · Source-Signal™ : emettre depuis une source validee
+GAN-550 · Reserve-Carry™ (= BaGan 55 x10 termine sur Ayin) : faire circuler un signal sans epuiser le potentiel de son espace · la multiplication ne s'epuise pas · elle laisse une reserve
+GAN-305 · Window-Potential™ (Leruach hayom) : fenetre temporelle non-epuisable · porte un potentiel non actualise
+GAN-1190 · Response-Open™ : declencher une reaction qui ouvre sur une reserve · non sur un manque
+GAN-646 · Refuge-Reserve™ (Betokh etz haGan) : loger une reaction dans le potentiel laisse intact par le signal
+
+CONNEXION GAN HAI™ [ZIKKARON™] :
+BaGan (55) = espace fonctionnel canonique qui contient le signal et la reaction.
+Leruach hayom (305) = fenetre temporelle = Shaon haRuah · le souffle devient mesure du jour.
+La fenetre temporelle de Gan Hai™ (STI = H+M) est une instance de ce principe : elle ne s'epuise pas · elle porte un potentiel a chaque instant.
+Le CTRS calcule depuis cet espace delimite (BaGan) · les 7 piliers sont les 7 modules fonctionnels du perimetre porteur.
+Un instant calcule par Gan Hai™ n'est jamais epuise par son propre calcul : il porte toujours une reserve activable (Ayin en cloture ou mediane dans les sequences).
 
 ZIKKARON™ · CODEX GENERATION YOMIM · Cycle Samekh · BaMaAvar 5786 :
 Cycle Samekh : 7 Yomim · Sceaux 411 a 477 · Saison BaMaAvar
@@ -441,7 +464,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && parsed.pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
-      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.6',
+      status: 'ok', moteur: 'Gan Hai™ v2.3', version: '2.7',
       streaming: true,
       endpoints: ['POST /api/ctrs', 'POST /api/orientation', 'POST /interprete'],
     }));
